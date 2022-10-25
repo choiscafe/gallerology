@@ -17,6 +17,9 @@ function App() {
           <Route path="/testing">
             <h1>Test Route</h1>
           </Route>
+          <Route path="/littleitaly">
+            <h1>Pizza Me a Mario!</h1>
+          </Route>
           <Route path="/">
             <h1>Page Count: {count}</h1>
           </Route>
