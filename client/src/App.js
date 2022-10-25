@@ -5,7 +5,7 @@ function App() {
   const [count, setCount] = useState(0);
 
   console.log('hi')
-  
+
   useEffect(() => {
     fetch("/hello")
       .then((r) => r.json())
@@ -15,7 +15,7 @@ function App() {
   useEffect(() => {
     fetch("/users")
       .then((r) => r.json())
-      .then((users) => setCount(users));
+      .then((users) => console.log(users));
   }, []);
 
   
