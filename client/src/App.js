@@ -4,21 +4,30 @@ import { BrowserRouter, Switch, Route } from "react-router-dom";
 function App() {
   const [count, setCount] = useState(0);
 
+  console.log('hi')
+  
   useEffect(() => {
     fetch("/hello")
       .then((r) => r.json())
       .then((data) => setCount(data.count));
   }, []);
 
+  useEffect(() => {
+    fetch("/users")
+      .then((r) => r.json())
+      .then((users) => setCount(users));
+  }, []);
+
+  
   return (
     <BrowserRouter>
       <div className="App">
         <Switch>
-          <Route path="/testing">
-            <h1>Test Route</h1>
+          <Route path="/login">
+            <h1>Login</h1>
           </Route>
-          <Route path="/littleitaly">
-            <h1>Pizza Me a Mario!</h1>
+          <Route path="/artworks">
+            <h1>Artworks</h1>
           </Route>
           <Route path="/">
             <h1>Page Count: {count}</h1>
