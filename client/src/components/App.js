@@ -1,16 +1,17 @@
 import { useState, useEffect } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import NavBar from './NavBar';
+import ArtsContainer from './ArtsContainer'
 
 function App() {
-  const [count, setCount] = useState(0);
+  const [collections, setCollections] = useState([]);
 
   console.log('hi')
 
   useEffect(() => {
-    fetch("/hello")
+    fetch("/collections")
       .then((r) => r.json())
-      .then((data) => setCount(data.count));
+      .then((collectionsData) => setCollections(collectionsData));
   }, []);
 
   useEffect(() => {
@@ -28,14 +29,14 @@ function App() {
           <Route path="/login">
             <h1>Login</h1>
           </Route>
-          <Route path="/artworks">
-            <h1>Artworks</h1>
+          <Route path="/collections">
+            <ArtsContainer collections={collections}/><h1>Collections</h1>
           </Route>
           <Route path="/maestros">
             <h1>Maestros</h1>
           </Route>
           <Route path="/">
-            <h1>Page Count: {count}</h1>
+            <h1>Welcome to Gallerology</h1>
           </Route>
         </Switch>
       </div>

@@ -23,6 +23,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_25_233140) do
   end
 
   create_table "artworks", force: :cascade do |t|
+    t.string "image"
     t.string "title"
     t.integer "year"
     t.string "gallery"
