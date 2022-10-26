@@ -6,10 +6,15 @@ class ArtistsController < ApplicationController
 
   def create
     artist = Artist.create(artist_params)
+    if artist.valid?
+      render json: artist, status: :created
+    else
+      render json: { errors: artist.errors.full_messages }, status: :unprocessable_entity
+    end
   end
 
   def artist_params
-    params.permit(:title, :year, :gallery, :exhibition, :notes, :seenDate, :artist_id, :user_id)
+    params.permit(:name, :birthPlace, :activeYears)
   end
 
 end
