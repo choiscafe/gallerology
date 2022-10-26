@@ -2,17 +2,17 @@ import ArtCard from './ArtCard'
 
 function ArtsContainer({ collections }) {
 
-  const collectionsList = collections.map((artwork) => {
+  const collection = collections.map((collection) => {
     return (
       <ArtCard
-      key={artwork.id}
-        artwork={artwork}
+        key={collection.id}
+        artwork={collection}
       />  
     )
   })
 
   return (
-    <ul className="arts-cards">{collectionsList}</ul>
+    <ul className="arts-cards">{collection}</ul>
   )
 }
 

@@ -9,7 +9,7 @@ function App() {
   console.log('hi')
 
   useEffect(() => {
-    fetch("/collections")
+    fetch("/artworks")
       .then((r) => r.json())
       .then((collectionsData) => setCollections(collectionsData));
   }, []);
@@ -30,7 +30,7 @@ function App() {
             <h1>Login</h1>
           </Route>
           <Route path="/collections">
-            <ArtsContainer collections={collections}/><h1>Collections</h1>
+            <h1>Collections</h1><ArtsContainer collections={collections}/>
           </Route>
           <Route path="/maestros">
             <h1>Maestros</h1>

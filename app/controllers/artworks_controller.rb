@@ -2,13 +2,13 @@ class ArtworksController < ApplicationController
 
   def index
     artworks = Artwork.all
-    render json: artworks
+    render json: artworks, status: :ok, each_serializer: IndexArtworkSerializer
   end
 
   def show
     artwork = Artwork.find_by(id: params[:id])
     if artwork
-      render json: artwork, status: :ok
+      render json: artwork, status: :ok, serializer: ShowArtworkSerializer
     else
       render json: { error: "Artwork not found" }, status: :not_found
     end
