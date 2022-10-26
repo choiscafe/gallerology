@@ -5,7 +5,8 @@ function NavBar(){
     <div className="App-header">
       <NavLink to="/collections">Collections</NavLink>{" "}
       <NavLink to="/maestros" className="navBarLink">Maestors</NavLink>{" "}
-      <NavLink to="/logout" className="navBarLink">Log Out</NavLink>
+      <NavLink to="/logout" className="navBarLink">Log Out</NavLink>{" "}
+      <NavLink to="/newcollection" className="navBarLink">New Addition</NavLink>
     </div>
   )
 }
