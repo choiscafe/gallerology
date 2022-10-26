@@ -1,12 +1,13 @@
 import ArtCard from './ArtCard'
 
-function ArtsContainer({ collections }) {
+function ArtsContainer({ collections, handleDeleteCollection }) {
 
   const collection = collections.map((collection) => {
     return (
       <ArtCard
         key={collection.id}
         artwork={collection}
+        onDelete={handleDeleteCollection}
       />  
     )
   })

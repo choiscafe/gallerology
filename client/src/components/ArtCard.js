@@ -1,9 +1,19 @@
-function ArtCard({ artwork }) {
+function ArtCard({ artwork, onDelete }) {
 
-  const {image, title, year, gallery, exhibition, notes, seenDate, artist_id} = artwork
+  const {id, image, title, year, gallery, exhibition, notes, seenDate, artist_id} = artwork
+
+  function handleDeleteClick() {
+    fetch(`/artworks/${id}`, {
+      method: 'DELETE',
+    }).then((r) => {
+      if (r.ok) {
+        onDelete(artwork)
+      }
+    })
+  }
 
   return (
-    <ul className="art-card">
+    <div className="art-card">
       <img src={image} alt={title} />
       <h4>{title}</h4>
       <p>{year}</p>
@@ -12,7 +22,8 @@ function ArtCard({ artwork }) {
       <p>{notes}</p>
       <p>{seenDate}</p>
       <p>{artist_id}</p>
-    </ul>
+      <span> <button className='del-btn' onClick={handleDeleteClick}><strong>X</strong></button></span>
+    </div>
   )
 }
 export default ArtCard

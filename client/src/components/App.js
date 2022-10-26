@@ -30,6 +30,14 @@ function App() {
     setCollections([...collections, newCollection]);
   }
 
+  function handleDeleteCollection(updatedCollection){
+    const updatedCollections = collections.filter((collection) => 
+      collection.id ===updatedCollection.id ? updatedCollection : collection
+    )
+      setCollections(updatedCollections)
+  }
+  
+
   return (
     <BrowserRouter>
       <div className="App">
@@ -44,7 +52,9 @@ function App() {
             <div className="buttonContainer">
               <button onClick={handleClick}>Add Collection</button>
             </div>
-            <ArtsContainer collections={collections}/>
+            <ArtsContainer 
+              collections={collections} 
+              handleDeleteCollection={handleDeleteCollection} />
           </Route>
           <Route path="/maestros">
             <h1>Maestros</h1><MaestrosContainer maestros={maestros}/>
