@@ -10,6 +10,6 @@ User.create(name: "Cho", username: "choiscafe", password_digest: "123A")
 User.create(name: "Rafia", username: "Raf", password_digest: "123B")
 User.create(name: "Logan", username: "Meister", password_digest: "123C")
 
-Artwork.create(image: "https://upload.wikimedia.org/wikipedia/commons/1/10/Bridge_Over_a_Pond_of_Water_Lilies%2C_Claude_Monet_1899.jpg", title: "The Water Lily Pond", year: 1899, gallery: "Metropolitan Museum of Art", exhibition: "Impressionism", notes: "Dreamy like pond and bridge", seenDate: "2022-03-02", artist_id: 1, user_id: 1)
-
 Artist.create(name: "Claude Monet", birthPlace: "France", activeYears: "1840-1926")
+
+Artwork.create(image: "https://upload.wikimedia.org/wikipedia/commons/1/10/Bridge_Over_a_Pond_of_Water_Lilies%2C_Claude_Monet_1899.jpg", title: "The Water Lily Pond", year: 1899, gallery: "Metropolitan Museum of Art", exhibition: "Impressionism", notes: "Dreamy like pond and bridge", seenDate: "2022-03-02", artist_id: 1, user_id: 1)
