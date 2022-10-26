@@ -2,11 +2,12 @@ import { useState, useEffect } from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 import NavBar from './NavBar';
 import ArtsContainer from './ArtsContainer'
+import MaestrosContainer from './MaestrosContainer'
 
 function App() {
   const [collections, setCollections] = useState([]);
+  const [maestros, setMaestros] = useState([]);
 
-  console.log('hi')
 
   useEffect(() => {
     fetch("/artworks")
@@ -15,9 +16,9 @@ function App() {
   }, []);
 
   useEffect(() => {
-    fetch("/users")
+    fetch("/artists")
       .then((r) => r.json())
-      .then((users) => console.log(users));
+      .then((maestrosData) => setMaestros(maestrosData));
   }, []);
 
   
@@ -33,7 +34,7 @@ function App() {
             <h1>Collections</h1><ArtsContainer collections={collections}/>
           </Route>
           <Route path="/maestros">
-            <h1>Maestros</h1>
+            <h1>Maestros</h1><MaestrosContainer maestros={maestros}/>
           </Route>
           <Route path="/">
             <h1>Welcome to Gallerology</h1>
