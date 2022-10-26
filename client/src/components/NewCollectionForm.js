@@ -5,7 +5,8 @@ function NewCollectionForm({ handleAddCollection }) {
   const [formData, setFormData] = useState({
     title: "",
     year: "",
-    artist: "",
+    artist_id: "",
+    user_id: "",
     gallery: "",
     exhibition: "",
     notes: "",
@@ -26,27 +27,28 @@ function NewCollectionForm({ handleAddCollection }) {
 
     const newCollection = {...formData}
 
-    fetch('/collections', {
+    fetch('/artworks', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(newCollection),
-    })
-    .then((r) => r.json())
-    .then((newCollection) => {
-      setFormData({
-        title: "",
-        year: "",
-        artist: "",
-        gallery: "",
-        exhibition: "",
-        notes: "",
-        seenDate: "",
-        image: ""
       })
-      handleAddCollection(newCollection)
-    })
+      .then((r) => r.json())
+      .then((newCollection) => {
+        setFormData({
+          title: "",
+          year: "",
+          artist_id: "",
+          user_id: "",
+          gallery: "",
+          exhibition: "",
+          notes: "",
+          seenDate: "",
+          image: ""
+        })
+        handleAddCollection(newCollection)
+      })
   }
 
   
@@ -57,11 +59,12 @@ function NewCollectionForm({ handleAddCollection }) {
         <form onSubmit={handleSubmit}>
           <input type="text" name="title" onChange={handleChange} value={formData.title} placeholder="Collection Title" /><br/>
           <input type="number" name="year" onChange={handleChange} value={formData.year} placeholder="Collection Year" /><br/>
-          <input type="text" name="artist" onChange={handleChange} value={formData.artist} placeholder="Collection Artist" /><br/>
-          <input type="text" name="gallery" onChange={handleChange} value={formData.gallery} placeholder="Collection Gallery or Museum name" /><br/>
+          <input type="number" name="artist_id" onChange={handleChange} value={formData.artist_id} placeholder="Collection Artist" /><br/>
+          <input type="number" name="user_id" onChange={handleChange} value={formData.user_id} placeholder="Collection User" /><br/>
+          <input type="text" name="gallery" onChange={handleChange} value={formData.gallery} placeholder="Gallery/Museum name" /><br/>
           <input type="text" name="exhibition" onChange={handleChange} value={formData.exhibition} placeholder="Collection Exhibition" /><br/>
           <input type="text" name="notes" onChange={handleChange} value={formData.notes} placeholder="Notes" /><br/>
-          <input type="date" name="date" onChange={handleChange} value={formData.date} placeholder="Date seen" /><br/>
+          <input type="date" name="seenDate" onChange={handleChange} value={formData.seenDate} placeholder="Date seen" /><br/>
           <input type="text" name="image" onChange={handleChange} value={formData.image} placeholder="Image URL" /><br/>
           <input type="submit" name="submit" value="Create New Collection" className="submit" />
         </form>
