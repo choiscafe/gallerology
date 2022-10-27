@@ -5,11 +5,13 @@ import ArtsContainer from './ArtsContainer'
 import MaestrosContainer from './MaestrosContainer'
 import NewCollectionForm from './NewCollectionForm'
 import EditCollectionForm from './EditCollectionForm'
+import Login from './Login'
 
 function App() {
   const [collections, setCollections] = useState([]);
   const [maestros, setMaestros] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
     fetch("/artworks")
@@ -22,6 +24,16 @@ function App() {
       .then((r) => r.json())
       .then((maestrosData) => setMaestros(maestrosData));
   }, []);
+ 
+  useEffect(() => {
+    fetch("/me").then((response) => {
+      if (response.ok) {
+        response.json().then((user) => setUser(user));
+      }
+    });
+  }, []);
+
+ 
 
   function handleClick() {
     setShowForm((showForm) => !showForm);
@@ -44,6 +56,10 @@ function App() {
     )
     setCollections(updatedCollections)
   }
+
+    
+  
+  if (user) {
   return (
     <BrowserRouter>
       <div className="App">
@@ -74,11 +90,15 @@ function App() {
           </Route> */}
           <Route exact path="/">
             <h1>Welcome to Gallerology</h1>
+            <h2>Welcome, {user.username}!</h2>
           </Route>
         </Switch>
       </div>
     </BrowserRouter>
   );
+} else {
+  return (<Login onLogin={setUser} />)
+}
 }
 
 export default App;
