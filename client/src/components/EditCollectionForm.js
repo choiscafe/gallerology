@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom"
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom"
 
-function NewCollectionForm({ handleAddCollection }) {
+function EditCollectionForm({ handleUpdateCollection }) {
 
   const [formData, setFormData] = useState({
     title: "",
@@ -15,7 +15,32 @@ function NewCollectionForm({ handleAddCollection }) {
     image: ""
   })
 
-  const history = useHistory()
+  const {id} = useParams()
+//Get the Collection
+  useEffect(() => {
+    fetch(`/artworks/${id}`)
+    .then(res => {
+      if(res.ok){
+        res.json().then(setFormData)
+      }
+    })
+  }, [id])
+//Patch
+  function onSubmit(e){
+    e.preventDefault()
+    console.log('hi')
+    fetch(`/artworks/${id}`, {
+      method: 'PATCH',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({...formData, ongoing: true})
+    })
+    
+    .then(res => {
+      if(res.ok){
+        res.json().then(handleUpdateCollection)
+      }
+    })
+  }
 
   function handleChange(event) {
     setFormData({
@@ -23,44 +48,12 @@ function NewCollectionForm({ handleAddCollection }) {
       [event.target.name]: event.target.value,
     });
   }
-
-  //Post New Art
-  function handleSubmit(event) {
-    event.preventDefault();
-
-    const newCollection = {...formData}
-
-    fetch('/artworks', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(newCollection),
-      })
-      .then((r) => r.json())
-      .then((newCollection) => {
-        setFormData({
-          title: "",
-          year: "",
-          artist_id: "",
-          user_id: "",
-          gallery: "",
-          exhibition: "",
-          notes: "",
-          seenDate: "",
-          image: ""
-        })
-        handleAddCollection(newCollection)
-        history.push(`/`)
-      })
-  }
-
    
   return (
     <div className="new-collection-form">
       <div className="new-collection-form__header">
         <h1>New Collection</h1>
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={onSubmit}>
           <input type="text" name="title" onChange={handleChange} value={formData.title} placeholder="Collection Title" /><br/>
           <input type="number" name="year" onChange={handleChange} value={formData.year} placeholder="Collection Year" /><br/>
           <input type="number" name="artist_id" onChange={handleChange} value={formData.artist_id} placeholder="Collection Artist" /><br/>
@@ -70,10 +63,10 @@ function NewCollectionForm({ handleAddCollection }) {
           <input type="text" name="notes" onChange={handleChange} value={formData.notes} placeholder="Notes" /><br/>
           <input type="date" name="seenDate" onChange={handleChange} value={formData.seenDate} placeholder="Date seen" /><br/>
           <input type="text" name="image" onChange={handleChange} value={formData.image} placeholder="Image URL" /><br/>
-          <input type="submit" name="submit" value="Create New Collection" className="submit" />
+          <input type="submit" name="submit" value="Update Collection" className="submit" />
         </form>
       </div>
     </div>
   )}
 
-  export default NewCollectionForm
+  export default EditCollectionForm
