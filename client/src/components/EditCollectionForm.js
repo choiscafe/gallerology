@@ -32,7 +32,7 @@ function EditCollectionForm({ handleUpdateCollection }) {
     fetch(`/artworks/${id}`, {
       method: 'PATCH',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({...formData, ongoing: true})
+      body: JSON.stringify({...formData})
     })
     
     .then(res => {

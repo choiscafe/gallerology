@@ -16,12 +16,8 @@ class ArtworksController < ApplicationController
   end
 
   def create
-    artwork = Artwork.create(artwork_params)
-    if artwork.valid?
-      render json: artwork, status: :created
-    else
-      render json: { errors: artwork.errors.full_messages }, status: :unprocessable_entity
-    end
+    artwork = Artwork.create!(artwork_params)
+    render json: artwork, status: :created
   end
 
   def update
@@ -50,7 +46,7 @@ class ArtworksController < ApplicationController
 
   private
 
-    def authorize
+    def authorized
       return render json: { error: "Not authorized" }, status: :unauthorized unless session.include? :user_id
     end
 

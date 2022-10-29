@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useHistory } from "react-router-dom"
 
 function Auth({ setCurrentUser }) {
   const [name, setName] = useState("");
@@ -6,6 +7,8 @@ function Auth({ setCurrentUser }) {
   const [password, setPassword] = useState("");
   const [login, setLogin] = useState("");
   const [errors, setErrors] = useState([])
+  
+  const history = useHistory()
 
   function onSubmit(e) {
     e.preventDefault()
@@ -22,6 +25,7 @@ function Auth({ setCurrentUser }) {
     .then((r) => {
         if (r.ok) {
           r.json().then(setCurrentUser)
+          history.push(`/user/${user.id}`)
          } else {
            r.json().then( e => setErrors(Object.entries(e.error).flat()))
            console.log('hi')
