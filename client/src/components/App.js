@@ -5,13 +5,16 @@ import ArtsContainer from './ArtsContainer'
 import MaestrosContainer from './MaestrosContainer'
 import NewCollectionForm from './NewCollectionForm'
 import EditCollectionForm from './EditCollectionForm'
+import Auth from './Auth'
 import Login from './Login'
+
 
 function App() {
   const [collections, setCollections] = useState([]);
   const [maestros, setMaestros] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [user, setUser] = useState(null);
+  const [currentUser, setCurrentUser] = useState('')
 
   useEffect(() => {
     fetch("/artworks")
@@ -24,16 +27,35 @@ function App() {
       .then((r) => r.json())
       .then((maestrosData) => setMaestros(maestrosData));
   }, []);
+
+  // useEffect(() => {
+  //   fetch('/auth')
+  //   .then(res => {
+  //     if(res.ok){
+  //       res.json().then(user => setCurrentUser(user))
+  //     }
+  //   })
+  // }, [])
  
   useEffect(() => {
-    fetch("/me").then((response) => {
+    fetch("/me")
+    .then((response) => {
       if (response.ok) {
-        response.json().then((user) => setUser(user));
+        response.json().then((user) => {
+          setUser(user)
+          setCurrentUser(user)
+        });
       }
     });
-  }, []);
+  }, [])
 
- 
+  // function handleLogin(user) {
+  //   setUser(null)
+  // }
+
+  // function handleLogout() {
+  //   setUser(null)
+  // }
 
   function handleClick() {
     setShowForm((showForm) => !showForm);
@@ -57,16 +79,16 @@ function App() {
     setCollections(updatedCollections)
   }
 
-    
-  
-  if (user) {
+  // if(!currentUser) return <Login setCurrentUser={setCurrentUser} />
   return (
     <BrowserRouter>
       <div className="App">
-        <NavBar/>
+        <NavBar user={user} setUser={setUser}/>
+        {user ? (
         <Switch>
-          <Route exact path="/login">
-            <h1>Login</h1>
+          <Route exact path="/">
+            <h1>Welcome to Gallerology</h1>
+            <h2>Welcome, {currentUser.username}!</h2>
           </Route>
           <Route exact path="/artworks">
             <h1>Collections</h1>
@@ -85,20 +107,25 @@ function App() {
           <Route exact path="/maestros">
             <h1>Maestros</h1><MaestrosContainer maestros={maestros}/>
           </Route>
-          {/* <Route exact path="/form">
-            <h1>Add New Gem</h1><NewCollectionForm collections={collections} setCollections={setCollections}/>
-          </Route> */}
+        </Switch>
+        ) : (
+        <Switch>
           <Route exact path="/">
-            <h1>Welcome to Gallerology</h1>
-            <h2>Welcome, {user.username}!</h2>
+            <h1>Hello, Welcome to Gallerology</h1>
+            <h2>The space where you become your own art collector</h2>
+          </Route>
+          <Route exact path="/login">
+            <Login onLogin={setUser} />
+          </Route>
+          <Route exact path="/signup">
+            <Auth setCurrentUser={setCurrentUser} />
           </Route>
         </Switch>
+        )}
       </div>
     </BrowserRouter>
   );
-} else {
-  return (<Login onLogin={setUser} />)
-}
-}
+} 
+
 
 export default App;

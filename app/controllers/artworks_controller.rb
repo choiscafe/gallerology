@@ -1,4 +1,5 @@
 class ArtworksController < ApplicationController
+  before_action :authorized
 
   def index
     artworks = Artwork.all
@@ -47,8 +48,13 @@ class ArtworksController < ApplicationController
     end
   end
 
+  private
 
-  def artwork_params
-    params.permit(:image, :title, :year, :gallery, :exhibition, :notes, :seenDate, :artist_id, :user_id)
-  end
+    def authorize
+      return render json: { error: "Not authorized" }, status: :unauthorized unless session.include? :user_id
+    end
+
+    def artwork_params
+      params.permit(:image, :title, :year, :gallery, :exhibition, :notes, :seenDate, :artist_id, :user_id)
+    end
 end
