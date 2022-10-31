@@ -13,56 +13,71 @@ function App() {
   const [collections, setCollections] = useState([]);
   const [maestros, setMaestros] = useState([]);
   const [showForm, setShowForm] = useState(false);
-  const [user, setUser] = useState(null);
   const [currentUser, setCurrentUser] = useState('')
+  const [errors, setErrors] = useState(false)
 
-  useEffect(() => {
-    fetch("/artworks")
-      .then((r) => r.json())
-      .then((collectionsData) => setCollections(collectionsData));
-  }, []);
-
-  useEffect(() => {
-    fetch("/artists")
-      .then((r) => r.json())
-      .then((maestrosData) => setMaestros(maestrosData));
-  }, []);
-
-  // useEffect(() => {
-  //   fetch('/auth')
-  //   .then(res => {
-  //     if(res.ok){
-  //       res.json().then(user => setCurrentUser(user))
-  //     }
-  //   })
-  // }, [])
- 
   useEffect(() => {
     fetch("/me")
-    .then((response) => {
+    .then(response => {
       if (response.ok) {
-        response.json().then((user) => {
-          setUser(user)
-          setCurrentUser(user)
+        response.json().then(user => {
+          updateUser(user)
+          fetchCollections()
+          fetchArtists()
         });
       }
     });
   }, [])
 
-  // function handleLogin(user) {
-  //   setUser(null)
-  // }
+  const fetchCollections = () => {
+    fetch("/artworks")
+      .then(r => {
+        if(r.ok){
+          r.json().then(setCollections)
+        }else {
+          r.json().then(data => setErrors(data.error))
+        }
+    })
+  }
+  const addCollection = (collection) => setCollections(current => [...current,collection])
+ 
+  const updateCollection= (updatedCollection) => setCollections(current => {
+    return current.map(collection => {
+      if(collection.id === updatedCollection.id){
+        return updatedCollection
+       } else {
+         return collection
+       } 
+      })
+    })
+  
+  const updateUser = (user) => setCurrentUser(user)
 
-  // function handleLogout() {
-  //   setUser(null)
-  // }
+  const fetchArtists = () => {
+    fetch("/artists")
+      .then(r => {
+        if(r.ok){
+          r.json().then(setMaestros)
+        }else {
+          r.json().then(data => setErrors(data.error))
+        }
+    })
+  }
+
+  const addArtist = (maestro) => setMaestros(current => [...current, maestro])
+
+  const updateArtist = (updatedArtists) => setMaestros(current => {
+    return current.map(maestro => {
+      if(maestro.id === updatedArtists.id){
+        return updatedArtists
+      }else {
+        return maestros
+      }
+    })
+  })
 
   function handleClick() {
     setShowForm((showForm) => !showForm);
-  }
-
-  function handleAddCollection(newCollection) {
-    setCollections([...collections, newCollection]);
   }
 
   function handleDeleteCollection(updatedCollection){
@@ -72,56 +87,56 @@ function App() {
     setCollections(updatedCollections)
   }
   
-  function handleUpdateCollection(updatedCollection) {
-    const updatedCollections = collections.map((collection) =>
-      collection.id === updatedCollection.id? updatedCollection : collection
-    )
-    setCollections(updatedCollections)
-  }
 
-  // if(!currentUser) return <Login setCurrentUser={setCurrentUser} />
   return (
     <BrowserRouter>
       <div className="App">
-        <NavBar user={user} setUser={setUser}/>
-        {user ? (
-        <Switch>
-          <Route exact path="/">
-            <h1>Welcome to Gallerology</h1>
-            <h2>Welcome, {currentUser.username}!</h2>
-          </Route>
-          <Route exact path="/artworks">
-            <h1>Collections</h1>
-            {showForm ? <NewCollectionForm handleAddCollection={handleAddCollection} /> : null}
-            <div className="buttonContainer">
-              <button onClick={handleClick}>Add Collection</button>
-            </div>
-            <ArtsContainer 
-              collections={collections} 
-              setCollections={setCollections}
-              handleDeleteCollection={handleDeleteCollection} />
-          </Route>
-          <Route exact path="/artworks/:id/edit">
-            <EditCollectionForm handleUpdateCollection={handleUpdateCollection}/>
-          </Route>
-          <Route exact path="/maestros">
-            <h1>Maestros</h1><MaestrosContainer maestros={maestros}/>
-          </Route>
-        </Switch>
-        ) : (
-        <Switch>
-          <Route exact path="/">
-            <h1>Hello, Welcome to Gallerology</h1>
-            <h2>The space where you become your own art collector</h2>
-          </Route>
-          <Route exact path="/login">
-            <Login onLogin={setUser} />
-          </Route>
-          <Route exact path="/signup">
-            <Auth setCurrentUser={setCurrentUser} />
-          </Route>
-        </Switch>
-        )}
+        <NavBar updateUser={updateUser} currentUser={currentUser}/>
+        {!currentUser ? 
+          <Switch>
+            <Route exact path="/login">
+              <Login updateUser={updateUser} />
+            </Route> 
+            <Route exact path="/">
+              <h1>Hello, Welcome to Gallerology</h1>
+              <h2>The space where you become your own art collector</h2>
+            </Route>
+            
+            <Route exact path="/signup">
+              <Auth setCurrentUser={setCurrentUser} />
+            </Route>
+          </Switch> :
+          <Switch>
+              <Route exact path="/">
+                <h1>Welcome to Gallerology</h1>
+                <h2>Welcome, {currentUser.username}!</h2>
+              </Route>
+              <Route exact path="/artworks">
+                <h1>Collections</h1>
+                {showForm ? <NewCollectionForm updateCollection={updateCollection} /> : null}
+                <div className="buttonContainer">
+                  <button onClick={handleClick}>Add Collection</button>
+                </div>
+                <ArtsContainer 
+                  collections={collections} 
+                  currentUser={currentUser}
+                  setCollections={setCollections}
+                  handleDeleteCollection={handleDeleteCollection} />
+              </Route>
+              <Route path='/users/:id'>
+              </Route>
+              <Route exact path="/artworks/:id/edit">
+                <EditCollectionForm updateCollection={updateCollection}/>
+              </Route>
+              <Route exact path="/maestros">
+                <h1>Maestros</h1>
+                <MaestrosContainer 
+                  maestros={maestros} 
+                  setMaestros={setMaestros}
+                  currentUser={currentUser}/>
+              </Route>
+          </Switch>
+        }
       </div>
     </BrowserRouter>
   );

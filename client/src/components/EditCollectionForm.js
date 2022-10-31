@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom"
 
-function EditCollectionForm({ handleUpdateCollection }) {
+function EditCollectionForm({ updateCollection }) {
 
   const [formData, setFormData] = useState({
     title: "",
@@ -37,7 +37,7 @@ function EditCollectionForm({ handleUpdateCollection }) {
     
     .then(res => {
       if(res.ok){
-        res.json().then(handleUpdateCollection)
+        res.json().then(updateCollection)
       }
     })
   }

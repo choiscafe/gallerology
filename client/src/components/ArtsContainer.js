@@ -1,8 +1,11 @@
 import ArtCard from './ArtCard'
 
-function ArtsContainer({ collections, setCollections, handleDeleteCollection }) {
+function ArtsContainer({ collections, setCollections, handleDeleteCollection, currentUser }) {
+  
+    let currentUserArts = collections.filter((art) => art.user_id === currentUser.id)
+   
+    const collection = currentUserArts.map((collection) => {
 
-  const collection = collections.map((collection) => {
     return (
       <ArtCard
         key={collection.id}

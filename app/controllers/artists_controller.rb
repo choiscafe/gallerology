@@ -1,5 +1,5 @@
 class ArtistsController < ApplicationController
-  before_action :authorized
+  # before_action :authorized
 
   def index
     artists = Artist.all
@@ -40,9 +40,9 @@ class ArtistsController < ApplicationController
 
   private
 
-    def authorized
-      return render json: { error: "Not authorized" }, status: :unauthorized unless session.include? :user_id
-    end
+    # def authorized
+    #   return render json: { error: "Not authorized" }, status: :unauthorized unless session.include? :user_id
+    # end
     
     def artist_params
       params.permit(:name, :birthPlace, :activeYears)

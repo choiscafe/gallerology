@@ -1,17 +1,22 @@
+import MaestroCard from './MaestroCard'
 
-function MaestrosContainer({ maestros }) {
+function MaestrosContainer({ maestros, setMaestros, currentUser }) {
 
-const maestroList = maestros.map((maestro) => {
+  
+  let currentUserArtists = maestros.filter((artist) => artist.users.find(user => user.id === currentUser.id))
+
+  const artist = currentUserArtists.map((maestro) => {
+
     return (
-      <ul className="maestros-container" key={maestro.id}>
-        <h4>{maestro.name}</h4>
-        <p>{maestro.birthPlace}</p>
-        <p>{maestro.activeYears}</p>
-      </ul>
+      <MaestroCard
+        key={maestro.id}
+        maestro={maestro}
+        setMaestros={setMaestros}
+      />
     )  
   })
   return (
-    maestroList
+    <ul className="artist-cards">{artist}</ul>
   )
 }
 

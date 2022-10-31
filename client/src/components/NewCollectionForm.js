@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useHistory } from "react-router-dom"
 
-function NewCollectionForm({ handleAddCollection }) {
+function NewCollectionForm({ updateCollection }) {
 
   const [formData, setFormData] = useState({
     title: "",
@@ -50,7 +50,7 @@ function NewCollectionForm({ handleAddCollection }) {
           seenDate: "",
           image: ""
         })
-        handleAddCollection(newCollection)
+        updateCollection(newCollection)
         history.push(`/`)
       })
   }
@@ -58,7 +58,7 @@ function NewCollectionForm({ handleAddCollection }) {
    
   return (
     <div className="new-collection-form">
-      <div className="new-collection-form__header">
+
         <h1>New Collection</h1>
         <form onSubmit={handleSubmit}>
           <input type="text" name="title" onChange={handleChange} value={formData.title} placeholder="Collection Title" /><br/>
@@ -72,7 +72,6 @@ function NewCollectionForm({ handleAddCollection }) {
           <input type="text" name="image" onChange={handleChange} value={formData.image} placeholder="Image URL" /><br/>
           <input type="submit" name="submit" value="Create New Collection" className="submit" />
         </form>
-      </div>
     </div>
   )}
 

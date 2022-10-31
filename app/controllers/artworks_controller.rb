@@ -1,15 +1,15 @@
 class ArtworksController < ApplicationController
-  before_action :authorized
+  # before_action :authorized
 
   def index
     artworks = Artwork.all
-    render json: artworks, status: :ok, each_serializer: IndexArtworkSerializer
+    render json: artworks, status: :ok
   end
 
   def show
     artwork = Artwork.find_by(id: params[:id])
     if artwork
-      render json: artwork, status: :ok, serializer: ShowArtworkSerializer
+      render json: artwork, status: :ok
     else
       render json: { error: "Artwork not found" }, status: :not_found
     end
@@ -46,9 +46,9 @@ class ArtworksController < ApplicationController
 
   private
 
-    def authorized
-      return render json: { error: "Not authorized" }, status: :unauthorized unless session.include? :user_id
-    end
+    # def authorized
+    #   return render json: { error: "Not authorized" }, status: :unauthorized unless session.include? :user_id
+    # end
 
     def artwork_params
       params.permit(:image, :title, :year, :gallery, :exhibition, :notes, :seenDate, :artist_id, :user_id)

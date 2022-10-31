@@ -1,11 +1,11 @@
 import { NavLink } from 'react-router-dom'
 
-function NavBar({ user, setUser }){
+function NavBar({ updateUser, currentUser }){
 
   function handleLogoutClick() {
     fetch("/logout", { method: "DELETE" }).then((r) => {
       if (r.ok) {
-        setUser(null);
+        updateUser(null);
       }
     })
   }
@@ -15,9 +15,9 @@ function NavBar({ user, setUser }){
       <NavLink to="/artworks">Collections</NavLink>{" "}
       <NavLink to="/maestros" className="navBarLink">Maestros</NavLink>{" "}
 
-      {user? (
+      {currentUser? (
         <header>
-          <p>Welcome, {user.username}!</p>
+          <p>Welcome, {currentUser.username}!</p>
           <button onClick={handleLogoutClick}>Logout</button>
         </header>
       ) : (
