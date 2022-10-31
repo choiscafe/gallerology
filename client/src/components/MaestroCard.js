@@ -15,8 +15,8 @@ function MaestroCard({ maestro, setMaestros }) {
     <div className="artist-card">
       <h4>{name}</h4>
       <p>{birthPlace}</p>
-      <p>{activeYears}</p>
-      <span> <button className='edit-btn'><Link to={`/artists/${id}/edit`}>Edit Maestro</Link></button></span>
+      <p>{activeYears}</p>{" "}
+      {/* <span> <button className='edit-btn'><Link to={`/artists/${id}/edit`}>Edit Maestro</Link></button></span> */}
     </div>
   )
 }

@@ -6,7 +6,7 @@ function LoginForm({ updateUser }) {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
   const history = useHistory()
-  
+
   function onSubmit(e) {
     e.preventDefault();
     const user = {
@@ -35,22 +35,22 @@ function LoginForm({ updateUser }) {
     <div>
       <form onSubmit={onSubmit}>
         <h1>Login</h1>
-        <label htmlFor="username">Username</label>
+        <label htmlFor="username">Username</label>{" "}
         <input
           type="text"
           id="username"
           autoComplete="off"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
-        />
-        <label htmlFor="password">Password</label>
+        />{" "}
+        <label htmlFor="password">Password</label>{" "}
         <input
           type="password"
           id="password"
           autoComplete="current-password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-        />
+        />{" "}
         <button type="submit">Login</button>
       </form>
     </div>

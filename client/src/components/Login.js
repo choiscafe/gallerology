@@ -19,7 +19,6 @@ function Login({ updateUser }) {
         </>
       ) : (
         <>
-          {/* <SignUpForm onLogin={onLogin} /> */}
           <p>
             Already have an account? &nbsp;
             <button color="secondary" onClick={() => setShowLogin(true)}>
