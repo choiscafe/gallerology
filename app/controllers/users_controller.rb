@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   # wrap_parameters format: []
   
-  # skip_before_action :authorized, only: [:create]
+  skip_before_action :authorized, only: [:create]
 
   def show
     # current_user = User.find(session[:user_id])
@@ -18,14 +18,12 @@ class UsersController < ApplicationController
     render json: users
   end
 
-
-
   private
-
-
 
   def user_params
     params.permit(:name, :username, :password)
   end
 
 end
+
+

@@ -6,14 +6,14 @@ function ArtsContainer({ collections, setCollections, handleDeleteCollection, cu
    
     const collection = currentUserArts.map((collection) => {
 
-    return (
-      <ArtCard
-        key={collection.id}
-        artwork={collection}
-        setCollections={setCollections}
-        onDelete={handleDeleteCollection}
-      />  
-    )
+      return (
+        <ArtCard
+          key={collection.id}
+          artwork={collection}
+          setCollections={setCollections}
+          onDelete={handleDeleteCollection}
+        />  
+      )
   })
 
   return (
